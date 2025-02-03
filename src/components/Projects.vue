@@ -63,7 +63,7 @@ import "swiper/css/pagination";
 
 <style scoped>
 :deep(.swiper-pagination-bullet) {
-  background-color: rgb(60, 206, 255) !important; /* Change color */
+  background-color: rgb(104, 104, 111) !important; /* Change color */
   width: 12px; /* Adjust size */
   height: 12px;
   opacity: 1;

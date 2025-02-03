@@ -30,9 +30,11 @@ import HeroSVG from "../assets/svg/hero.svg";
           <h2 class="text-white text-center">Software Developer</h2>
           <br />
           <div class="flex justify-center mb-8">
-            <button class="btn border-black-700 bg-white text-black hover:bg-black hover:text-white">
+            <a href="#">
+              <button class="btn border-black-700 bg-white text-black hover:bg-black hover:text-white">
               Portfolio Website
-            </button>
+              </button>
+            </a>
           </div>
           <div class="mt-10 flex flex-col justify-center items-center gap-10">
             <div class="flex w-80 items-center gap-5 text-center" data-aos="fade-down" data-aos-delay="300">
