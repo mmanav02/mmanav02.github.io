@@ -7,16 +7,16 @@ import { skillsItems} from "../data/index.ts";
 
 <section class="min-h-fit bg-gray-800" id="skills">
       <div class="px-5 py-14 md:container">
-        <h2 class="title text-yellow-500" data-aos="fade-down">
+        <h2 class="subtitle text-white" data-aos="fade-down">
           Skills
         </h2>
-        <h4 class="subtitle" data-aos="fade-down">
-          MY TOP SKILLS
+        <h4 class="title text-black" data-aos="fade-down">
+          Tech-Stack
         </h4>
         <br />
         <div class="flex flex-wrap justify-center gap-4">
             <div v-for="(item, skillIndex) in skillsItems" :key="skillIndex" 
-              class="group relative flex w-full max-w-sm items-center gap-5 rounded-md border-2 border-yellow-700 bg-gray-950 p-5 duration-200 hover:border-yellow-500 sm:cursor-pointer"
+              class="group relative flex w-full max-w-sm items-center gap-5 rounded-md border-2 border-white-700 bg-gray-950 p-5 duration-200 hover:border-yellow-500 sm:cursor-pointer"
               data-aos="fade-up"
               :data-aos-delay="index * 400"
             >

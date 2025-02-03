@@ -1,12 +1,12 @@
 <script setup> </script>
 <template>
-  <footer class="bg-gray-950">
+  <footer class="bg-gray-800">
     <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
       <div class="md:flex md:justify-between">
         <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
           <!-- Links Text -->
           <div class="flex items-center mb-6">
-            <h2 class="mr-6 text-3xl font-semibold text-yellow-500 uppercase dark:text-black">
+            <h2 class="mr-6 text-3xl font-semibold text-white uppercase dark:text-black">
               Links
             </h2>
           </div>
@@ -17,7 +17,7 @@
             <a
               href="https://www.github.com/mmanav02"
               target="_blank"
-              class="text-gray-500 hover:text-gray-900 dark:hover:text-white flex items-center"
+              class="text-white hover:text-gray-400 dark:hover:text-white flex items-center "
             >
               <span class="sr-only">GitHub account</span>
               <svg
@@ -38,13 +38,13 @@
             <!-- LinkedIn Icon -->
             <a
               href="https://www.linkedin.com/in/manavv-vakharia"
-              class="text-gray-500 hover:text-gray-900 dark:hover:text-white flex items-center"
+              class="text-gray-500 dark:hover:text-white flex items-center hover:text-gray-400"
             >
               <span class="sr-only">LinkedIn profile</span>
               <img
                 src="../assets/svg/linkedin.svg"
                 alt="LinkedIn"
-                class="w-10 h-10 transition duration-300 ease-in-out hover:filter brightness-75"
+                class="w-10 h-10 transition duration-300 ease-in-out hover:filter"
               />
             </a>
           </div>

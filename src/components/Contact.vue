@@ -4,12 +4,12 @@ import ContactSVG from "../assets/svg/contact.svg";
 
 <template>
 
-<section className="bg-gray-800 pb-8" id="contact">
+<section className="bg-black pb-8" id="contact">
     <div className="lg:container px-5 pt-14">
-    <h2 className="title text-yellow-500" data-aos="fade-down">
+    <h2 className="suptitle text-white" data-aos="fade-down">
         Hire Me
     </h2>
-    <h4 className="subtitle" data-aos="fade-down">
+    <h4 className="title text-gray-500" data-aos="fade-down">
         FOR YOUR PROJECTS
     </h4>
     <br />
@@ -22,7 +22,7 @@ import ContactSVG from "../assets/svg/contact.svg";
         />
         <div
         data-aos="fade-left"
-        className="ml-4 border-2 border-yellow-700 max-w-md
+        className="ml-4 border-2 border-white max-w-md
         p-6 shadow-sm rounded-xl rounded-br-[8rem] sm:min-w-[22rem]"
         >
         <div className="w-full max-w-md bg-gray-950 p-5">
@@ -33,11 +33,10 @@ import ContactSVG from "../assets/svg/contact.svg";
             <div className="space-y-2 text-gray-500 dark:text-gray-400 leading-loose hidden sm:block">
                 Name <br />
                 Email <br />
-                Phone
             </div>
-            <div id="contact-details" className="space-y-2 text-yellow-600 font-medium leading-loose">
+            <div id="contact-details" className="space-y-2 text-white font-medium leading-loose">
                 Manav Pragnesh Vakharia <br />
-                mpvwork06@gmail.com <br />+1 9518232503
+                mpvwork06@gmail.com <br />
             </div>
             </address>
         </div>
@@ -47,8 +46,8 @@ import ContactSVG from "../assets/svg/contact.svg";
         </p>
         <br />
         <a
-            href="mpvwork06@gmail.com "
-            className="btn bg-yellow-700 hover:bg-yellow-500 text-white"
+            href="mailto:mpvwork06@gmail.com "
+            className="btn bg-white hover:bg-black text-black hover:text-white"
         >
             Hire Me
         </a>

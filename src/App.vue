@@ -22,7 +22,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div className="bg-gray-950">
+  <div className="bg-black">
       <Navbar />
       <Hero />
       <Skills />

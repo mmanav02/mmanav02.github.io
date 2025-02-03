@@ -5,14 +5,14 @@
 		.s1 { fill: #3f3d56 } 
 		.s2 { fill: #ffffff } 
 		.s3 { fill: #0d0843 } 
-		.s4 { fill: #f9a826 } 
-		.s5 { fill: #f3b609 } 
+		.s4 { fill: #000000 } 
+		.s5 { fill: #000000 } 
 		.s6 { fill: #2f2e41 } 
 		.s7 { fill: #e6e6e6 } 
-		.s8 { fill: #f6b706 } 
+		.s8 { fill: #000000 } 
 		.s9 { fill: #ffb6b6 } 
-		.s10 { fill: #edb20c } 
-		.s11 { fill: #f5b80b } 
+		.s10 { fill: #000000 } 
+		.s11 { fill: #000000 } 
 	</style>
 	<g id="Layer 1">
 		<path id="Layer" class="s0" d="m117.7 88.7l-4 21 19.9 5.7-2.5-22.5-13.4-4.2z"/>

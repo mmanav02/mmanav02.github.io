@@ -1,4 +1,4 @@
-import { HomeIcon, AcademicCapIcon, Cog6ToothIcon, DocumentDuplicateIcon, UserIcon } from "@heroicons/vue/24/outline";
+import { HomeIcon, AcademicCapIcon, Cog6ToothIcon, DocumentDuplicateIcon, UserIcon, BookOpenIcon } from "@heroicons/vue/24/outline";
 
 import mySchedules from "../assets/svg/mySchedules.svg";
 import CascadedDenoising from "../assets/svg/CascadedDenoising.svg";
