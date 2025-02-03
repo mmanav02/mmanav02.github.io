@@ -26,7 +26,7 @@ import "swiper/css/pagination";
           :src="ProjectsSVG"
           alt="Projects SVG"
           data-aos="fade-right"
-          class="max-w-[45vw] min-w-[22rem] object-contain text-white bg-white"
+          class="w-full h-full object-contain"
         />
       </div>
       

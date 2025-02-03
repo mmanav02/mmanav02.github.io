@@ -16,7 +16,7 @@ import { skillsItems} from "../data/index.ts";
         <br />
         <div class="flex flex-wrap justify-center gap-4">
             <div v-for="(item, skillIndex) in skillsItems" :key="skillIndex" 
-              class="group relative flex w-full max-w-sm items-center gap-5 rounded-md border-2 border-white-700 bg-gray-950 p-5 duration-200 hover:border-yellow-500 sm:cursor-pointer"
+              class="group relative flex w-full max-w-sm items-center gap-5 rounded-md border-2 border-white bg-gray-950 p-5 duration-200 hover:border-gray-600 sm:cursor-pointer"
               data-aos="fade-up"
               :data-aos-delay="index * 400"
             >
