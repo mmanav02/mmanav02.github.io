@@ -31,8 +31,8 @@ import ContactSVG from "../assets/svg/contact.svg";
             </h2>
             <address className="relative bg-gray-700 dark:border-gray-600 p-4 rounded-lg border border-gray-200 not-italic flex space-x-2">
             <div className="space-y-2 text-gray-500 dark:text-gray-400 leading-loose hidden sm:block">
-                Name <br />
-                Email <br />
+                Name: <br />
+                Email: <br />
             </div>
             <div id="contact-details" className="space-y-2 text-white font-medium leading-loose">
                 Manav Pragnesh Vakharia <br />

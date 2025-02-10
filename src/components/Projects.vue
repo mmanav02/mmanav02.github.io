@@ -14,19 +14,19 @@ import "swiper/css/pagination";
       <h2 class="subtitle text-white" data-aos="fade-down">
         Projects
       </h2>
-      <h4 class="subtitle text-white" data-aos="fade-down">
+      <h4 class="subtitle text-gray-450" data-aos="fade-down">
         MY CREATION
       </h4>
       <br />
     </div>
     <div class="flex items-center lg:flex-row flex-col-reverse gap-5">
       <!-- Projects SVG Image -->
-      <div class="w-[30%] h-[80vh] bg-white rounded-2xl bg-gray-850 flex items-center justify-center">
+      <div class="flex items-center justify-center bg-white p-4 rounded-2xl">
         <img
           :src="ProjectsSVG"
           alt="Projects SVG"
           data-aos="fade-right"
-          class="w-full h-full object-contain"
+          class="w-auto h-auto max-w-full max-h-full object-contain"
         />
       </div>
       
@@ -34,7 +34,7 @@ import "swiper/css/pagination";
       <Swiper
         :pagination="{ clickable: true }"
         :space-between="20"
-        :modules="[Pagination,Navigation]"
+        :modules="[Pagination, Navigation]"
         class="rounded-3xl pb-4 shadow-lg shadow-gray-500 flex-1 h-[80vh] max-w-full"
       >
         <SwiperSlide v-for="(item, index) in projectsItems" :key="index"

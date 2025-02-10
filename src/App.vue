@@ -7,6 +7,7 @@ import Projects from "./components/Projects.vue"
 import Testimonials from "./components/testimonials.vue"
 import Contact from "./components/Contact.vue"
 import Footer from "./components/Footer.vue"
+import Background from "./components/Background.vue"
 import { onMounted } from "vue";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -26,9 +27,9 @@ onMounted(() => {
       <Navbar />
       <Hero />
       <Skills />
-      <Services />
       <Projects />
- 
+      <Background />
+      <Services />
       <Contact />
       <Footer></Footer>
     </div>

@@ -1,4 +1,4 @@
-import { HomeIcon, AcademicCapIcon, Cog6ToothIcon, DocumentDuplicateIcon, UserIcon, BookOpenIcon } from "@heroicons/vue/24/outline";
+import { HomeIcon, AcademicCapIcon, CodeBracketIcon, Cog6ToothIcon, DocumentDuplicateIcon, UserIcon} from "@heroicons/vue/24/outline";
 
 import mySchedules from "../assets/svg/mySchedules.svg";
 import CascadedDenoising from "../assets/svg/CascadedDenoising.svg";
@@ -29,6 +29,16 @@ export const navItems = [
   {
     name: "Skills",
     href: "#skills",
+    icon: CodeBracketIcon,
+  },
+  {
+    name: "Projects",
+    href: "#projects",
+    icon: DocumentDuplicateIcon,
+  },
+  {
+    name: "background",
+    href: "#background",
     icon: AcademicCapIcon,
   },
   {
@@ -37,15 +47,11 @@ export const navItems = [
     icon: Cog6ToothIcon,
   },
   {
-    name: "Projects",
-    href: "#projects",
-    icon: DocumentDuplicateIcon,
-  },
-  {
     name: "Contact",
     href: "#contact",
     icon: UserIcon,
   },
+  
 ];
 
 export const projectsItems = [
@@ -154,4 +160,36 @@ export const servicesItems = [
 
 export const testimonialsItems = [
   
+];
+
+export const educationItems = [
+  { 
+    degree: "Masters of Science", 
+    major: "Computer Science and Engineering",
+    institution: "Santa Clara University", 
+    year: "2024 - 2026", 
+    course: "Current Courses - Pattern Recognition and Data Mining, Object Oriented Application Design"
+  },
+  { 
+    degree: "Bachelors of Technology", 
+    major: "Computer Science and Engineering",
+    institution: "Nirma University, India", 
+    year: "2020 - 2024", 
+    course: "Data Structures and Algorithms, Object Oriented Programming, Programming for Scientific Computing, Operating Systems, Machine Learning, Computer Networks, Big Data Analytics, Blockchain Technologies, Information and Network Security, Natural Language Processing."
+  }
+]
+
+export const experienceItems = [
+  { 
+    position: "Research Intern", 
+    company: "Space Applications Centre, ISRO", 
+    duration: "01/2024 - 05/2024", 
+    description: "Devised an unsupervised algorithm for crop prediction using multispectral data and provided a comparative analysis with supervised models (XGBoost and RF)." 
+  },
+  { 
+    position: "General Secretary", 
+    company: "ACES, CSE dept.", 
+    duration: "10/2022 - 09/2023", 
+    description: "Organized various seminars and a virtual event for mock interviews." 
+  }
 ];

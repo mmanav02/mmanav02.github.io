@@ -6,7 +6,7 @@ import { servicesItems } from "../data/index.ts";
   <section id="services">
     <div class="md:container px-5 py-14">
       <h2 class="suptitle text-white" data-aos="fade-down">Services</h2>
-      <h4 class="title text-white" data-aos="fade-down">WHAT I OFFER</h4>
+      <h4 class="title text-gray-450" data-aos="fade-down">WHAT I OFFER</h4>
       <br />
       <div class="flex gap-5 justify-between flex-wrap group">
         <div

@@ -10,7 +10,7 @@ import { skillsItems} from "../data/index.ts";
       <h2 class="subtitle text-white" data-aos="fade-down">
         Skills
       </h2>
-      <h4 class="title text-black" data-aos="fade-down">
+      <h4 class="title text-gray-400" data-aos="fade-down">
         Tech-Stack
       </h4>
       <br />
