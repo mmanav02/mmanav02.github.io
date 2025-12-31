@@ -17,7 +17,7 @@ import { experienceItems } from "../data/index.ts";
         <ul class="space-y-3">
           <li v-for="(exp, index) in experienceItems" :key="index" class="bg-gray-700 p-4 rounded-lg shadow-md">
             <h4 class="text-lg text-white font-bold">{{ exp.position }}</h4>
-            <p class="text-sm text-gray-200">{{ exp.company }} ({{ exp.duration }})</p>
+            <p class="text-sm text-gray-200">{{ exp.company }}<span v-if="exp.location">, {{ exp.location }}</span> ({{ exp.duration }})</p>
             <p class="text-sm text-gray-400 mt-2">{{ exp.description }}</p>
           </li>
         </ul>
