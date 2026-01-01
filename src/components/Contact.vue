@@ -30,15 +30,11 @@ import ContactSVG from "../assets/svg/contact.svg";
             </h2>
             <address class="relative bg-gray-700 dark:border-gray-600 p-4 rounded-lg border border-gray-200 not-italic flex space-x-2">
             <div class="space-y-2 text-gray-500 dark:text-gray-400 leading-loose hidden sm:block">
-                Name: <br />
                 Email: <br />
-                Phone: <br />
                 Website: <br />
             </div>
             <div id="contact-details" class="space-y-2 text-white font-medium leading-loose">
-                Manav Pragnesh Vakharia <br />
                 mpvwork06@gmail.com <br />
-                9518232503 <br />
                 <a href="https://manavvpvakharia.com" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-300">manavvpvakharia.com</a> <br />
             </div>
             </address>

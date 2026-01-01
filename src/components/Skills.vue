@@ -24,7 +24,7 @@ import { skillsItems} from "../data/index.ts";
             <img
               :src="item.logo"
               :alt="item.name"
-              class="w-32 duration-200 group-hover:scale-200 group-hover:filter group-hover:invert"
+              :class="item.name === 'Agentic Workflow' ? 'w-40 duration-200 group-hover:scale-200 icon-filter' : 'w-32 duration-200 group-hover:scale-200 icon-filter'"
             />
           </div>
           <div>
@@ -40,3 +40,14 @@ import { skillsItems} from "../data/index.ts";
   </section>
 
 </template>
+
+<style scoped>
+.icon-filter {
+  filter: grayscale(100%) brightness(0) invert(1);
+  transition: filter 0.2s;
+}
+
+.group:hover .icon-filter {
+  filter: grayscale(100%) brightness(0) invert(0);
+}
+</style>

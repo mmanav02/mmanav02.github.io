@@ -16,9 +16,10 @@ import { experienceItems } from "../data/index.ts";
         <h3 class="text-xl font-semibold mb-3">Experience</h3>
         <ul class="space-y-3">
           <li v-for="(exp, index) in experienceItems" :key="index" class="bg-gray-700 p-4 rounded-lg shadow-md">
-            <h4 class="text-lg text-white font-bold">{{ exp.position }}</h4>
-            <p class="text-sm text-gray-200">{{ exp.company }}<span v-if="exp.location">, {{ exp.location }}</span> ({{ exp.duration }})</p>
-            <p class="text-sm text-gray-400 mt-2">{{ exp.description }}</p>
+            <h4 class="text-lg text-white font-bold">{{ exp.position }} | {{ exp.company }}</h4>
+            <p class="text-sm text-gray-200"><span v-if="exp.location" class="text-gray-200">{{ exp.location }}</span> ({{ exp.duration }})</p>
+            <p v-if="exp.technologies" class="text-sm text-gray-300 mt-1 italic">{{ exp.technologies }}</p>
+            <div class="text-sm text-gray-400 mt-2 whitespace-pre-line">{{ exp.description }}</div>
           </li>
         </ul>
       </div>
