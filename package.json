@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "npm run build:deploy",
-    "build:deploy": "vite build && cp CNAME docs/ && git add docs/ CNAME && git commit -m \"Deploy to main branch\" && git push origin main"
+    "build:deploy": "vite build && node scripts/deploy-to-main.js"
   },
   "dependencies": {
     "@heroicons/vue": "^2.2.0",

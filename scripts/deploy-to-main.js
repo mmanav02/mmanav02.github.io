@@ -17,7 +17,10 @@ try {
   const currentBranch = execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf-8' }).trim();
   
   console.log(`Current branch: ${currentBranch}`);
-  console.log('Switching to main branch...');
+  console.log('Building project...');
+  
+  // Build the project (already done, but ensure)
+  execSync('npm run build', { stdio: 'inherit' });
   
   // Stash any uncommitted changes
   try {
@@ -27,11 +30,12 @@ try {
   }
   
   // Switch to main branch
+  console.log('Switching to main branch...');
   execSync('git checkout main', { stdio: 'inherit' });
   
   // Remove all files except .git
-  console.log('Cleaning main branch...');
-  execSync('git rm -rf . 2>/dev/null || true', { stdio: 'ignore' });
+  console.log('Cleaning main branch (keeping only .git)...');
+  execSync('find . -mindepth 1 -maxdepth 1 ! -name ".git" -exec rm -rf {} +', { stdio: 'ignore' });
   
   // Copy dist contents to root
   console.log('Copying built files to main...');
@@ -67,9 +71,18 @@ try {
   
   console.log('✅ Deployment to main branch completed successfully!');
   console.log('Your site will be live at https://www.manavvpvakharia.com');
+  console.log('\n📝 Note: Configure GitHub Pages to serve from "main" branch in repository settings.');
   
 } catch (error) {
   console.error('❌ Deployment failed:', error.message);
+  // Try to switch back to original branch on error
+  try {
+    const currentBranch = execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf-8' }).trim();
+    if (currentBranch !== 'main') {
+      execSync(`git checkout ${currentBranch}`, { stdio: 'ignore' });
+    }
+  } catch (e) {
+    // Ignore
+  }
   process.exit(1);
 }
-
