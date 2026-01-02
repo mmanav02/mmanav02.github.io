@@ -33,18 +33,22 @@ try {
   console.log('Switching to main branch...');
   execSync('git checkout main', { stdio: 'inherit' });
   
-  // Remove all files except .git using Node.js
+  // Remove all files except .git using Node.js (macOS compatible)
   console.log('Cleaning main branch (keeping only .git)...');
   try {
     const files = readdirSync('.');
     for (const file of files) {
       if (file !== '.git') {
         const filePath = join(process.cwd(), file);
-        const stats = statSync(filePath);
-        if (stats.isDirectory()) {
-          rmSync(filePath, { recursive: true, force: true });
-        } else {
-          rmSync(filePath, { force: true });
+        try {
+          const stats = statSync(filePath);
+          if (stats.isDirectory()) {
+            rmSync(filePath, { recursive: true, force: true });
+          } else {
+            rmSync(filePath, { force: true });
+          }
+        } catch (e) {
+          // Ignore individual file errors
         }
       }
     }
@@ -54,11 +58,12 @@ try {
   
   // Copy dist contents to root
   console.log('Copying built files to main...');
-  execSync(`cp -r ${distPath}/* .`, { stdio: 'inherit' });
+  // Use shell: true and proper quoting for paths with spaces
+  execSync(`cp -r "${distPath}/"* .`, { stdio: 'inherit', shell: true });
   
   // Ensure CNAME is present
   if (existsSync(cnamePath)) {
-    execSync(`cp ${cnamePath} .`, { stdio: 'ignore' });
+    execSync(`cp "${cnamePath}" .`, { stdio: 'ignore', shell: true });
   }
   
   // Add all files
