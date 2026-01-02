@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { execSync } from 'child_process';
-import { existsSync, readdirSync, statSync, rmSync, copyFileSync, mkdirSync } from 'fs';
+import { existsSync, readdirSync, statSync, rmSync, copyFileSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
 const distPath = join(process.cwd(), 'dist');
@@ -21,6 +21,21 @@ try {
   
   // Build the project (already done, but ensure)
   execSync('npm run build', { stdio: 'inherit' });
+  
+  // Store paths BEFORE switching branches (dist folder exists in filesystem)
+  const distPathBeforeSwitch = join(process.cwd(), 'dist');
+  const cnamePathBeforeSwitch = join(process.cwd(), 'CNAME');
+  console.log('Stored dist path before switch:', distPathBeforeSwitch);
+  
+  // Read CNAME content before switching (so we can write it after switching)
+  let cnameContent = null;
+  if (existsSync(cnamePathBeforeSwitch)) {
+    cnameContent = readFileSync(cnamePathBeforeSwitch, 'utf-8').trim();
+    console.log('✅ CNAME file found:', cnameContent);
+  } else {
+    console.error('❌ Error: CNAME file not found in dev branch. Please ensure CNAME exists.');
+    process.exit(1);
+  }
   
   // Stash any uncommitted changes
   try {
@@ -59,11 +74,24 @@ try {
   
   // Copy dist contents to root using Node.js (more reliable than shell commands)
   console.log('Copying built files to main...');
-  // Recalculate distPath after branch switch (dist folder still exists in filesystem)
-  const currentDistPath = join(process.cwd(), 'dist');
+  // Debug: Print the paths
+  console.log('Current working directory:', process.cwd());
+  console.log('Dist path before switch:', distPathBeforeSwitch);
+  console.log('Dist path exists?', existsSync(distPathBeforeSwitch));
   
-  if (!existsSync(currentDistPath)) {
-    throw new Error(`Dist folder not found at ${currentDistPath}`);
+  // Use the dist path stored before branch switch (dist folder still exists in filesystem)
+  if (!existsSync(distPathBeforeSwitch)) {
+    // Try to list what's actually in the directory
+    try {
+      const files = readdirSync(process.cwd());
+      console.log('Files in current directory:', files);
+      console.log('Checking if dist exists with statSync...');
+      const distStat = statSync(distPathBeforeSwitch);
+      console.log('Dist stat:', distStat);
+    } catch (e) {
+      console.log('Error checking dist:', e.message);
+    }
+    throw new Error(`Dist folder not found at ${distPathBeforeSwitch}`);
   }
   
   // Recursively copy files using Node.js
@@ -82,15 +110,12 @@ try {
     }
   };
   
-  copyRecursive(currentDistPath, process.cwd());
+  copyRecursive(distPathBeforeSwitch, process.cwd());
   
-  // Ensure CNAME is present (check parent directory where dev branch files are)
-  const parentCnamePath = join(process.cwd(), '..', 'CNAME');
-  if (existsSync(parentCnamePath)) {
-    copyFileSync(parentCnamePath, join(process.cwd(), 'CNAME'));
-  } else if (existsSync(cnamePath)) {
-    // Fallback to original path
-    copyFileSync(cnamePath, join(process.cwd(), 'CNAME'));
+  // Ensure CNAME is present (write the content we read before switching)
+  if (cnameContent) {
+    writeFileSync(join(process.cwd(), 'CNAME'), cnameContent);
+    console.log('✅ CNAME file written to main branch:', cnameContent);
   }
   
   // Add all files
