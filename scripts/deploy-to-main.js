@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { execSync } from 'child_process';
-import { existsSync, readdirSync, statSync, rmSync } from 'fs';
+import { existsSync, readdirSync, statSync, rmSync, copyFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
 
 const distPath = join(process.cwd(), 'dist');
@@ -56,14 +56,40 @@ try {
     console.log('Warning: Some files may not have been removed:', e.message);
   }
   
-  // Copy dist contents to root
+  // Copy dist contents to root using Node.js (more reliable than shell commands)
   console.log('Copying built files to main...');
-  // Use shell: true and proper quoting for paths with spaces
-  execSync(`cp -r "${distPath}/"* .`, { stdio: 'inherit', shell: true });
+  // Recalculate distPath after branch switch (dist folder still exists in filesystem)
+  const currentDistPath = join(process.cwd(), 'dist');
   
-  // Ensure CNAME is present
-  if (existsSync(cnamePath)) {
-    execSync(`cp "${cnamePath}" .`, { stdio: 'ignore', shell: true });
+  if (!existsSync(currentDistPath)) {
+    throw new Error(`Dist folder not found at ${currentDistPath}`);
+  }
+  
+  // Recursively copy files using Node.js
+  const copyRecursive = (src, dest) => {
+    const entries = readdirSync(src, { withFileTypes: true });
+    for (const entry of entries) {
+      const srcPath = join(src, entry.name);
+      const destPath = join(dest, entry.name);
+      
+      if (entry.isDirectory()) {
+        mkdirSync(destPath, { recursive: true });
+        copyRecursive(srcPath, destPath);
+      } else {
+        copyFileSync(srcPath, destPath);
+      }
+    }
+  };
+  
+  copyRecursive(currentDistPath, process.cwd());
+  
+  // Ensure CNAME is present (check parent directory where dev branch files are)
+  const parentCnamePath = join(process.cwd(), '..', 'CNAME');
+  if (existsSync(parentCnamePath)) {
+    copyFileSync(parentCnamePath, join(process.cwd(), 'CNAME'));
+  } else if (existsSync(cnamePath)) {
+    // Fallback to original path
+    copyFileSync(cnamePath, join(process.cwd(), 'CNAME'));
   }
   
   // Add all files
