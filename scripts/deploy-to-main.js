@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { execSync } from 'child_process';
-import { existsSync, readdirSync, statSync, rmSync, copyFileSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
+import { existsSync, readdirSync, statSync, rmSync, copyFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
 
 const distPath = join(process.cwd(), 'dist');
@@ -21,20 +21,6 @@ try {
   
   // Build the project (already done, but ensure)
   execSync('npm run build', { stdio: 'inherit' });
-  
-  // Store paths BEFORE switching branches (dist folder exists in filesystem)
-  const distPathBeforeSwitch = join(process.cwd(), 'dist');
-  const cnamePathBeforeSwitch = join(process.cwd(), 'CNAME');
-  
-  // Read CNAME content before switching (so we can write it after switching)
-  let cnameContent = null;
-  if (existsSync(cnamePathBeforeSwitch)) {
-    cnameContent = readFileSync(cnamePathBeforeSwitch, 'utf-8').trim();
-    console.log('✅ CNAME file found:', cnameContent);
-  } else {
-    console.error('❌ Error: CNAME file not found in dev branch. Please ensure CNAME exists.');
-    process.exit(1);
-  }
   
   // Stash any uncommitted changes
   try {
@@ -73,10 +59,11 @@ try {
   
   // Copy dist contents to root using Node.js (more reliable than shell commands)
   console.log('Copying built files to main...');
-  // Use the dist path stored before branch switch (dist folder still exists in filesystem)
+  // Recalculate distPath after branch switch (dist folder still exists in filesystem)
+  const currentDistPath = join(process.cwd(), 'dist');
   
-  if (!existsSync(distPathBeforeSwitch)) {
-    throw new Error(`Dist folder not found at ${distPathBeforeSwitch}`);
+  if (!existsSync(currentDistPath)) {
+    throw new Error(`Dist folder not found at ${currentDistPath}`);
   }
   
   // Recursively copy files using Node.js
@@ -95,12 +82,15 @@ try {
     }
   };
   
-  copyRecursive(distPathBeforeSwitch, process.cwd());
+  copyRecursive(currentDistPath, process.cwd());
   
-  // Ensure CNAME is present (write the content we read before switching)
-  if (cnameContent) {
-    writeFileSync(join(process.cwd(), 'CNAME'), cnameContent);
-    console.log('✅ CNAME file written to main branch:', cnameContent);
+  // Ensure CNAME is present (check parent directory where dev branch files are)
+  const parentCnamePath = join(process.cwd(), '..', 'CNAME');
+  if (existsSync(parentCnamePath)) {
+    copyFileSync(parentCnamePath, join(process.cwd(), 'CNAME'));
+  } else if (existsSync(cnamePath)) {
+    // Fallback to original path
+    copyFileSync(cnamePath, join(process.cwd(), 'CNAME'));
   }
   
   // Add all files
