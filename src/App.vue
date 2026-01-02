@@ -23,7 +23,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div className="bg-black">
+  <div className="bg-black w-full overflow-x-hidden">
       <Navbar />
       <Hero />
       <Skills />

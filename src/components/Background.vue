@@ -1,11 +1,29 @@
 <script setup>
+import { ref, computed } from "vue";
 import { educationItems } from "../data/index.ts";
 import { experienceItems } from "../data/index.ts";
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/vue/24/outline";
+
+const expandedItems = ref({});
+
+const toggleExpand = (index) => {
+  expandedItems.value[index] = !expandedItems.value[index];
+};
+
+const isExpanded = (index) => {
+  return expandedItems.value[index] || false;
+};
+
+const getTruncatedDescription = (description, maxLength = 200) => {
+  if (!description) return "";
+  if (description.length <= maxLength) return description;
+  return description.substring(0, maxLength) + "...";
+};
 </script>
 
 <template>
   <section class="bg-gray-800 pb-4" id="background">
-    <div class="md:container px-5 pt-14 min-h-screen md:min-h-min flex flex-col justify-between">
+    <div class="w-full max-w-7xl mx-auto px-4 sm:px-5 pt-14 min-h-screen md:min-h-min flex flex-col justify-between">
       <div>
         <h2 class="subtitle text-white-900" data-aos="fade-down">Background</h2>
         <br>
@@ -15,11 +33,32 @@ import { experienceItems } from "../data/index.ts";
       <div class="text-white">
         <h3 class="text-xl font-semibold mb-3">Experience</h3>
         <ul class="space-y-3">
-          <li v-for="(exp, index) in experienceItems" :key="index" class="bg-gray-700 p-4 rounded-lg shadow-md">
-            <h4 class="text-lg text-white font-bold">{{ exp.position }} | {{ exp.company }}</h4>
-            <p class="text-sm text-gray-200"><span v-if="exp.location" class="text-gray-200">{{ exp.location }}</span> ({{ exp.duration }})</p>
-            <p v-if="exp.technologies" class="text-sm text-gray-300 mt-1 italic">{{ exp.technologies }}</p>
-            <div class="text-sm text-gray-400 mt-2 whitespace-pre-line">{{ exp.description }}</div>
+          <li v-for="(exp, index) in experienceItems" :key="index" class="bg-gray-700 p-4 rounded-lg shadow-md w-full overflow-hidden">
+            <h4 class="text-base sm:text-lg text-white font-bold break-words">{{ exp.position }} | {{ exp.company }}</h4>
+            <p class="text-xs sm:text-sm text-gray-200 mt-1 break-words">
+              <span v-if="exp.location" class="text-gray-200">{{ exp.location }}</span> ({{ exp.duration }})
+            </p>
+            <p v-if="exp.technologies" class="text-xs sm:text-sm text-gray-300 mt-1 italic break-words">{{ exp.technologies }}</p>
+            <div class="mt-2">
+              <div 
+                class="text-xs sm:text-sm text-gray-400 whitespace-pre-line break-words"
+                :class="isExpanded(index) ? '' : 'truncate-description'"
+                :style="isExpanded(index) ? '' : { display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' }"
+              >
+                {{ isExpanded(index) ? exp.description : getTruncatedDescription(exp.description, 250) }}
+              </div>
+              <button
+                v-if="exp.description && exp.description.length > 250"
+                @click="toggleExpand(index)"
+                class="mt-2 flex items-center gap-1 text-xs sm:text-sm text-blue-400 hover:text-blue-300 transition-colors"
+              >
+                <span>{{ isExpanded(index) ? 'Show less' : 'Show more' }}</span>
+                <component 
+                  :is="isExpanded(index) ? ChevronUpIcon : ChevronDownIcon" 
+                  class="w-4 h-4"
+                />
+              </button>
+            </div>
           </li>
         </ul>
       </div>
@@ -30,11 +69,11 @@ import { experienceItems } from "../data/index.ts";
       <div class="text-white">
         <h3 class="text-xl font-semibold mb-3">Education</h3>
         <ul class="space-y-3">
-          <li v-for="(edu, index) in educationItems" :key="index" class="bg-gray-700 p-4 rounded-lg shadow-md">
-            <h4 class="text-lg text-white font-bold">{{ edu.degree }}</h4>
-            <p class="text-lg text-white">Major: {{ edu.major }}</p>
-            <p class="text-sm text-gray-200">{{ edu.institution }} ({{ edu.year }})</p>
-            <p class="text-sm text-gray-400 mt-2"><strong>Courses:</strong> {{ edu.course }}</p>
+          <li v-for="(edu, index) in educationItems" :key="index" class="bg-gray-700 p-4 rounded-lg shadow-md w-full overflow-hidden">
+            <h4 class="text-base sm:text-lg text-white font-bold break-words">{{ edu.degree }}</h4>
+            <p class="text-base sm:text-lg text-white break-words">Major: {{ edu.major }}</p>
+            <p class="text-xs sm:text-sm text-gray-200 break-words">{{ edu.institution }} ({{ edu.year }})</p>
+            <p class="text-xs sm:text-sm text-gray-400 mt-2 break-words"><strong>Courses:</strong> {{ edu.course }}</p>
           </li>
         </ul>
       </div>
