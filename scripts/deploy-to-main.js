@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { execSync } from 'child_process';
-import { existsSync, readdirSync, statSync, rmSync, copyFileSync, mkdirSync } from 'fs';
+import { existsSync, readdirSync, statSync, rmSync, copyFileSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
 const distPath = join(process.cwd(), 'dist');
