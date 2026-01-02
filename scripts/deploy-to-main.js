@@ -1,0 +1,97 @@
+#!/usr/bin/env node
+
+import { execSync } from 'child_process';
+import { existsSync } from 'fs';
+import { join } from 'path';
+
+const distPath = join(process.cwd(), 'dist');
+const cnamePath = join(process.cwd(), 'CNAME');
+
+if (!existsSync(distPath)) {
+  console.error('Error: dist folder not found. Run "npm run build" first.');
+  process.exit(1);
+}
+
+try {
+  // Get current branch
+  const currentBranch = execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf-8' }).trim();
+  
+  console.log(`Current branch: ${currentBranch}`);
+  console.log('Building project...');
+  
+  // Build the project (already done, but ensure)
+  execSync('npm run build', { stdio: 'inherit' });
+  
+  // Stash any uncommitted changes
+  try {
+    execSync('git stash', { stdio: 'ignore' });
+  } catch (e) {
+    // No changes to stash
+  }
+  
+  // Switch to main branch
+  console.log('Switching to main branch...');
+  execSync('git checkout main', { stdio: 'inherit' });
+  
+  // Remove all files except .git
+  console.log('Cleaning main branch (keeping only .git)...');
+  try {
+    // Get list of files/dirs to remove (excluding .git)
+    const files = execSync('ls -A', { encoding: 'utf-8' }).trim().split('\n').filter(f => f !== '.git');
+    if (files.length > 0) {
+      execSync(`rm -rf ${files.join(' ')}`, { stdio: 'ignore' });
+    }
+  } catch (e) {
+    // If ls fails or no files, try alternative method
+    execSync('git rm -rf . 2>/dev/null || true', { stdio: 'ignore' });
+  }
+  
+  // Copy dist contents to root
+  console.log('Copying built files to main...');
+  execSync(`cp -r ${distPath}/* .`, { stdio: 'inherit' });
+  
+  // Ensure CNAME is present
+  if (existsSync(cnamePath)) {
+    execSync(`cp ${cnamePath} .`, { stdio: 'ignore' });
+  }
+  
+  // Add all files
+  console.log('Staging files...');
+  execSync('git add -A', { stdio: 'inherit' });
+  
+  // Commit
+  console.log('Committing changes...');
+  execSync('git commit -m "Deploy latest changes to main branch"', { stdio: 'inherit' });
+  
+  // Push to main
+  console.log('Pushing to main branch...');
+  execSync('git push origin main', { stdio: 'inherit' });
+  
+  // Switch back to original branch
+  console.log(`Switching back to ${currentBranch} branch...`);
+  execSync(`git checkout ${currentBranch}`, { stdio: 'inherit' });
+  
+  // Restore stashed changes if any
+  try {
+    execSync('git stash pop', { stdio: 'ignore' });
+  } catch (e) {
+    // No stash to restore
+  }
+  
+  console.log('✅ Deployment to main branch completed successfully!');
+  console.log('Your site will be live at https://www.manavvpvakharia.com');
+  console.log('\n📝 Note: Configure GitHub Pages to serve from "main" branch in repository settings.');
+  
+} catch (error) {
+  console.error('❌ Deployment failed:', error.message);
+  // Try to switch back to original branch on error
+  try {
+    const currentBranch = execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf-8' }).trim();
+    if (currentBranch !== 'main') {
+      execSync(`git checkout ${currentBranch}`, { stdio: 'ignore' });
+    }
+  } catch (e) {
+    // Ignore
+  }
+  process.exit(1);
+}
