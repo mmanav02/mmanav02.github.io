@@ -22,7 +22,7 @@ try {
   // Build the project (already done, but ensure)
   execSync('npm run build', { stdio: 'inherit' });
   
-  // Store the dist path BEFORE switching branches (dist folder exists in filesystem)
+  // Store paths BEFORE switching branches (dist folder exists in filesystem)
   const distPathBeforeSwitch = join(process.cwd(), 'dist');
   const cnamePathBeforeSwitch = join(process.cwd(), 'CNAME');
   
@@ -62,11 +62,10 @@ try {
   
   // Copy dist contents to root using Node.js (more reliable than shell commands)
   console.log('Copying built files to main...');
-  // Recalculate distPath after branch switch (dist folder still exists in filesystem)
-  const currentDistPath = join(process.cwd(), 'dist');
+  // Use the dist path stored before branch switch (dist folder still exists in filesystem)
   
-  if (!existsSync(currentDistPath)) {
-    throw new Error(`Dist folder not found at ${currentDistPath}`);
+  if (!existsSync(distPathBeforeSwitch)) {
+    throw new Error(`Dist folder not found at ${distPathBeforeSwitch}`);
   }
   
   // Recursively copy files using Node.js
@@ -85,15 +84,11 @@ try {
     }
   };
   
-  copyRecursive(currentDistPath, process.cwd());
+  copyRecursive(distPathBeforeSwitch, process.cwd());
   
-  // Ensure CNAME is present (check parent directory where dev branch files are)
-  const parentCnamePath = join(process.cwd(), '..', 'CNAME');
-  if (existsSync(parentCnamePath)) {
-    copyFileSync(parentCnamePath, join(process.cwd(), 'CNAME'));
-  } else if (existsSync(cnamePath)) {
-    // Fallback to original path
-    copyFileSync(cnamePath, join(process.cwd(), 'CNAME'));
+  // Ensure CNAME is present (use path stored before branch switch)
+  if (existsSync(cnamePathBeforeSwitch)) {
+    copyFileSync(cnamePathBeforeSwitch, join(process.cwd(), 'CNAME'));
   }
   
   // Add all files
