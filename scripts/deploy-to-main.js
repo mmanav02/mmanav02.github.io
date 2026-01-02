@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { execSync } from 'child_process';
-import { existsSync } from 'fs';
+import { existsSync, readdirSync, statSync, rmSync } from 'fs';
 import { join } from 'path';
 
 const distPath = join(process.cwd(), 'dist');
@@ -33,9 +33,28 @@ try {
   console.log('Switching to main branch...');
   execSync('git checkout main', { stdio: 'inherit' });
   
-  // Remove all files except .git
+  // Remove all files except .git using Node.js (macOS compatible)
   console.log('Cleaning main branch (keeping only .git)...');
-  execSync('find . -mindepth 1 -maxdepth 1 ! -name ".git" -exec rm -rf {} +', { stdio: 'ignore' });
+  try {
+    const files = readdirSync('.');
+    for (const file of files) {
+      if (file !== '.git') {
+        const filePath = join(process.cwd(), file);
+        try {
+          const stats = statSync(filePath);
+          if (stats.isDirectory()) {
+            rmSync(filePath, { recursive: true, force: true });
+          } else {
+            rmSync(filePath, { force: true });
+          }
+        } catch (e) {
+          // Ignore individual file errors
+        }
+      }
+    }
+  } catch (e) {
+    console.log('Warning: Some files may not have been removed:', e.message);
+  }
   
   // Copy dist contents to root
   console.log('Copying built files to main...');
