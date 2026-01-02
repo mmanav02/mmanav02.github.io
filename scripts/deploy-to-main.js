@@ -26,8 +26,12 @@ try {
   const distPathBeforeSwitch = join(process.cwd(), 'dist');
   const cnamePathBeforeSwitch = join(process.cwd(), 'CNAME');
   
-  // Verify CNAME exists before switching
-  if (!existsSync(cnamePathBeforeSwitch)) {
+  // Read CNAME content before switching (so we can write it after switching)
+  let cnameContent = null;
+  if (existsSync(cnamePathBeforeSwitch)) {
+    cnameContent = readFileSync(cnamePathBeforeSwitch, 'utf-8').trim();
+    console.log('✅ CNAME file found:', cnameContent);
+  } else {
     console.error('❌ Error: CNAME file not found in dev branch. Please ensure CNAME exists.');
     process.exit(1);
   }
@@ -93,10 +97,11 @@ try {
   
   copyRecursive(distPathBeforeSwitch, process.cwd());
   
-  // Ensure CNAME is present (use path stored before branch switch)
-  // CNAME should always exist since we checked it before switching
-  copyFileSync(cnamePathBeforeSwitch, join(process.cwd(), 'CNAME'));
-  console.log('✅ CNAME file copied to main branch');
+  // Ensure CNAME is present (write the content we read before switching)
+  if (cnameContent) {
+    writeFileSync(join(process.cwd(), 'CNAME'), cnameContent);
+    console.log('✅ CNAME file written to main branch:', cnameContent);
+  }
   
   // Add all files
   console.log('Staging files...');
