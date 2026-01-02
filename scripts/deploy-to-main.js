@@ -58,11 +58,12 @@ try {
   
   // Copy dist contents to root
   console.log('Copying built files to main...');
-  execSync(`cp -r ${distPath}/* .`, { stdio: 'inherit' });
+  // Use shell: true and proper quoting for paths with spaces
+  execSync(`cp -r "${distPath}/"* .`, { stdio: 'inherit', shell: true });
   
   // Ensure CNAME is present
   if (existsSync(cnamePath)) {
-    execSync(`cp ${cnamePath} .`, { stdio: 'ignore' });
+    execSync(`cp "${cnamePath}" .`, { stdio: 'ignore', shell: true });
   }
   
   // Add all files
